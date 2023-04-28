@@ -18,6 +18,7 @@ router.post("/register", (req, res) => {
     let userDetails = req.body;
     let { users } = usersData;
     let validatorObj = validator.validateUserInfo(userDetails, users);
+    console.log("validatorObj",validatorObj, users, userDetails);
     if (validatorObj.status) {
       userDetails.password = bcrypt.hashSync(userDetails.password, 8);
       let result = fileWriter(userDetails, users);

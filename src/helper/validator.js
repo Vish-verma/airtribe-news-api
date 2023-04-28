@@ -8,13 +8,13 @@ class validator {
 
             if(this.validateUniqueId(userInfo,userData)){
                 return {
-                    "status": true,
+                    "status": false,
                     "message": "Id should be Unique"
                   };
             }
             if(this.validateUniqueEmail(userInfo,userData)){
                 return {
-                    "status": true,
+                    "status": false,
                     "message": "Email should be Unique"
                   };
             }
@@ -47,15 +47,15 @@ class validator {
     }
 
     
-    static validateUniqueEmail(userObj, usersDate) {
-      let valueFound =usersDate.some(el => el.email === userObj.email);
-      if(valueFound) return false;
-      return true;
+    static validateUniqueEmail(userObj, usersData) {
+      let valueFound =usersData.some(el => el.email === userObj.email);
+      if(valueFound) return true;
+      return false;
     }
-    static validateUniqueId(userObj, usersDate) {
-      let valueFound =usersDate.some(el => el.id === userObj.id);
-      if(valueFound) return false;
-      return true;
+    static validateUniqueId(userObj, usersData) {
+      let valueFound =usersData.some(el => el.id === userObj.id);
+      if(valueFound) return true;
+      return false;
     }
   }
   
