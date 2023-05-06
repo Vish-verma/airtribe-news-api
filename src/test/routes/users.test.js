@@ -16,7 +16,7 @@ describe("fetches user preferences", () => {
     };
     chai
       .request(server)
-      .post("auth/register")
+      .post("/auth/register")
       .send(singupBody)
       .end((err, res) => {
         let signInBody = {
@@ -25,7 +25,7 @@ describe("fetches user preferences", () => {
         };
         chai
           .request(server)
-          .post("auth/signin")
+          .post("/auth/signin")
           .send(signInBody)
           .end((err, siginResponse) => {
             chai
@@ -53,7 +53,7 @@ describe("fetches user preferences", () => {
     };
     chai
       .request(server)
-      .post("auth/register")
+      .post("/auth/register")
       .send(singupBody)
       .end((err, res) => {
         let signInBody = {
@@ -62,7 +62,7 @@ describe("fetches user preferences", () => {
         };
         chai
           .request(server)
-          .post("auth/login")
+          .post("/auth/login")
           .send(signInBody)
           .end((err, siginResponse) => {
             chai
@@ -91,7 +91,7 @@ describe("fetches user preferences", () => {
     };
     chai
       .request(server)
-      .post("auth/register")
+      .post("/auth/register")
       .send(singupBody)
       .end((err, res) => {
         let signInBody = {
@@ -100,7 +100,7 @@ describe("fetches user preferences", () => {
         };
         chai
           .request(server)
-          .post("auth/login")
+          .post("/auth/login")
           .send(signInBody)
           .end((err, siginResponse) => {
             chai
