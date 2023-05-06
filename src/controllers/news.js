@@ -1,18 +1,28 @@
 const axios = require("axios");
+const {getCache, setCache} = require('../cache');
+
+
 
 const getNews = async (req, res) => {
   try {
-    let dbUser = req.user;
+    const {preferences} = req.user;
+    
+    let cacheData = await getCache(`NEWS_${preferences}`);
+    if(cacheData){
+      res.status(200).send({ articles: cacheData.articles, isCachedData:true });
+      return;
+    }
     let response = await axios.get("https://newsapi.org/v2/everything", {
       params: {
-        q: dbUser.preferences,
+        q: preferences,
         pageSize: 20,
         apiKey: process.env.NEWS_API_KEY,
       },
     });
     if (response) {
       let { data } = response;
-      res.status(200).send({ articles: data.articles });
+      setCache(`NEWS_${preferences}`,{ articles: data.articles});
+      res.status(200).send({ articles: data.articles, isCachedData:false });
     } else {
       res.status(500).send({ message: "Something went wrong !" });
     }

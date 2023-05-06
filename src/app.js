@@ -1,7 +1,14 @@
 //Importing required packages
 const express = require("express");
+const rateLimit = require('express-rate-limit');
 const cors = require("cors");
 require("dotenv").config();
+
+const limiter = rateLimit({
+  windowMs: 5 * 60 * 1000, // 15 minutes
+  max: 10, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again later'
+});
 const newsApi = require("./routes/news");
 const authApi = require("./routes/auth");
 const userApi = require("./routes/user");
@@ -18,10 +25,10 @@ app.use(routes);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 //task manager routes
-
+app.use('/',limiter);
 app.use("/news", verifyToken, newsApi);
 app.use("/preferences", verifyToken, userApi);
 app.use("/auth", authApi);
@@ -38,3 +45,4 @@ app.listen(PORT, (error) => {
     );
   else console.log("Error occurred, server can't start", error);
 });
+

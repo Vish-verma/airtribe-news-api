@@ -2,11 +2,17 @@ const fileWriter = require("../helper/file-helper");
 
 const validator = require("../helper/validator");
 const usersData = require("../data/users.json");
+const {getCache, setCache} = require('../cache');
 
-const getUserPreference = (req, res) => {
+const getUserPreference = async (req, res) => {
   try {
-    let dbUser = req.user;
+    let { preferences,id } = req.user;
+    let cachedData = await getCache(`USER_${preferences}_${id}`);
+    if(cachedData){
+      res.status(200).send({ preferences: cachedData.preferences });
+    }
     if (dbUser) {
+      setCache(`USER_${preferences}_${id}`,{ preferences: dbUser.preferences });
       res.status(200).send({ preferences: dbUser.preferences });
     } else {
       res.status(404).send({ message: "User Not Found" });
