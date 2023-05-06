@@ -53,13 +53,14 @@ router.post("/login", (req, res) => {
           .status(401)
           .send({ accessToken: null, message: "Invalid Credentials" });
       }
+      let  tokenExpiry = 86400
       var token = jwt.sign(
         {
           id: dbUser.id,
         },
         process.env.AUTH_SECRET,
         {
-          expiresIn: 86400,
+          expiresIn:tokenExpiry,
         }
       );
 
