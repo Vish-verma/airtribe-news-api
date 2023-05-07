@@ -4,12 +4,12 @@ const usersData = require("../data/users.json");
 const verifyToken = (req, res, next) => {
   try {
     if (req?.headers?.authorization?.split(" ")[0] === "JWT") {
-      let userToken = req.headers.authorization.split(" ")[1];
+      let userToken = req?.headers?.authorization?.split(" ")[1];
       jwt.verify(userToken, process.env.AUTH_SECRET, function (err, decode) {
         if (err) {
           req.user = undefined;
-          next();
-        }else{
+          return res.status(403).send({ message: "Invalid JWT token" });
+        } else {
           let { users } = usersData;
 
           let dbUser = users.find((item) => item.id == decode.id);
@@ -17,13 +17,14 @@ const verifyToken = (req, res, next) => {
             req.user = dbUser;
             next();
           } else {
-            res.status(404).send({ message: "Invalid User" });
+            return res.status(404).send({ message: "Invalid User" });
           }
         }
-        
       });
     } else {
-      res.status(403).send({ message: "Authorization header not found" });
+      return res
+        .status(403)
+        .send({ message: "Authorization header not found" });
     }
   } catch (error) {
     console.log("err", error);

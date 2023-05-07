@@ -11,21 +11,20 @@ const registerUser = (req, res) => {
     let userDetails = req.body;
     let { users } = usersData;
     let validatorObj = validator.validateUserInfo(userDetails, users);
-    console.log("validatorObj", validatorObj, users, userDetails);
     if (validatorObj.status) {
       userDetails.password = bcrypt.hashSync(userDetails.password, 8);
       let result = fileWriter(userDetails, users);
       if (result.status) {
-        res.status(200).send(result);
+        return res.status(200).send(result);
       } else {
-        res.status(500).send(result);
+        return res.status(500).send(result);
       }
     } else {
       res.status(400);
-      res.send(validatorObj);
+      return res.send(validatorObj);
     }
   } catch (error) {
-    res.status(500).send({ message: "Something went wrong !" });
+    return res.status(500).send({ message: "Something went wrong !" });
   }
 };
 
@@ -41,7 +40,7 @@ const loginUser = (req, res) => {
         dbUser.password
       );
       if (!passwordIsValid) {
-        res
+        return  res
           .status(401)
           .send({ accessToken: null, message: "Invalid Credentials" });
       }
@@ -57,7 +56,7 @@ const loginUser = (req, res) => {
       );
 
       //responding to client request with user profile success message and  access token .
-      res.status(200).send({
+      return res.status(200).send({
         user: {
           id: dbUser.id,
           email: dbUser.email,
@@ -67,12 +66,11 @@ const loginUser = (req, res) => {
         accessToken: token,
       });
     } else {
-      res.status(404).send({ message: "User Not Found" });
+      return res.status(404).send({ message: "User Not Found" });
     }
   } catch (error) {
-    console.log("error", error);
 
-    res.status(500).send({ message: "Something went wrong !" });
+    return res.status(500).send({ message: "Something went wrong !" });
   }
 };
 

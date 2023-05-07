@@ -4,8 +4,8 @@ chai.use(chaiHttp);
 const server = require("../../app");
 const expect = require("chai").expect;
 
-describe("fetches user preferences", () => {
-  it("preferences: signs in validates the token and fetches the Preferences", (done) => {
+describe("fetches user News ", () => {
+  it("NEWS: signs in validates the token and fetches the News: Success", (done) => {
     let singupBody = {
       fullName: "test name",
       email: "test12345@gmail.com",
@@ -30,11 +30,11 @@ describe("fetches user preferences", () => {
           .end((err, siginResponse) => {
             chai
               .request(server)
-              .get("/preferences")
+              .get("/news")
               .set("authorization", `JWT ${siginResponse.body.accessToken}`)
               .end((err, res) => {
                 expect(res.status).equal(200);
-                expect(res.body.preferences).equal("Batman");
+                expect(res.body.articles.length).equals(20);
                 done();
               });
           })
@@ -42,7 +42,7 @@ describe("fetches user preferences", () => {
       });
   });
 
-  it("preferences: signs in, validates the token and and does not pass the authoriation header", (done) => {
+  it("NEWS: signs in, validates the token and and does not pass the authoriation header", (done) => {
     let singupBody = {
       fullName: "test name",
       email: "test12345@gmail.com",
@@ -67,7 +67,7 @@ describe("fetches user preferences", () => {
           .end((err, siginResponse) => {
             chai
               .request(server)
-              .get("/preferences")
+              .get("/news")
               .end((err, res) => {
                 expect(res.status).equal(403);
                 expect(res.body.message).equal(
@@ -80,7 +80,7 @@ describe("fetches user preferences", () => {
       });
   });
 
-  it("preferences: signs in, validates the token and and does not pass the valid access header", (done) => {
+  it("NEWS: signs in, validates the token and and does not pass the valid access header", (done) => {
     let singupBody = {
       fullName: "test name",
       email: "test12345@gmail.com",
@@ -105,7 +105,7 @@ describe("fetches user preferences", () => {
           .end((err, siginResponse) => {
             chai
               .request(server)
-              .get("/preferences")
+              .get("/news")
               .set("authorization", `JWT ${siginResponse.body.accessToken}abcd`)
               .end((err, res) => {
                 expect(res.status).equal(403);

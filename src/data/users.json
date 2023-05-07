@@ -1,11 +1,1 @@
-{
-  "users": [
-    {
-      "fullName": "Clark",
-      "email": "Clark@gotham.com",
-      "id": 1,
-      "password": "$2b$08$2uDi83D9eyCNuaam24/NTewA8JxFZGjmLLwtwduPtIZPbgM6Amz8y",
-      "preferences": "Batman"
-    }
-  ]
-}
+{"users":[{"fullName":"Clark","email":"Clark@gotham.com","id":1,"password":"$2b$08$2uDi83D9eyCNuaam24/NTewA8JxFZGjmLLwtwduPtIZPbgM6Amz8y","preferences":"Batman"},{"fullName":"test name","email":"test12345@gmail.com","role":"admin","password":"$2b$08$f70Vg7wJLuvnERydRtX/y..5geI1vG1g7uIF6L8H6LdbzLqDabpCm","preferences":"Batman","id":501},{"fullName":"test name","email":"test1234@gmail.com","role":"admin","password":"$2b$08$Jq4MW1VIz9n92iw8R6d/TuduCweBfdWS.1ksKZxGriqQiN6yZc6Ia","preferences":"Batman","id":51}]}

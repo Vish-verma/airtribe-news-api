@@ -12,7 +12,7 @@ const getUserPreference = async (req, res) => {
       let cachedData = await getCache(`USER_${preferences}_${id}`);
       if (cachedData) {
         res.status(200).send({ preferences: cachedData.preferences });
-        return 
+        return;
       }
       setCache(`USER_${preferences}_${id}`, { preferences: preferences });
       res.status(200).send({ preferences: preferences });
