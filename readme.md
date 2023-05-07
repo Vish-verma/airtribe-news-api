@@ -21,7 +21,7 @@ Starting the server - <strong>npm start</strong>
 The Curls to see the functionalities
 
 1. Register a User : 
-<code>curl --location 'http://localhost:3000/register' \
+<code>curl --location 'http://localhost:3000/auth/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "fullName": "Clark",
@@ -31,7 +31,7 @@ The Curls to see the functionalities
     "preferences": "Crime"
 }'</code> 
     
-2. Sign in a user :  <code>curl --location 'http://localhost:3000/login' \
+2. Sign in a user :  <code>curl --location 'http://localhost:3000/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "email": "Clark@gotham.com",
