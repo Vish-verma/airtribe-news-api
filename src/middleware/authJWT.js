@@ -1,31 +1,34 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const usersData = require("../data/users.json");
 
 const verifyToken = (req, res, next) => {
-    try {
-        if (req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
-            jwt.verify(req.headers.authorization.split(' ')[1], process.env.AUTH_SECRET, function (err, decode) {
-              if (err)  {
-                req.user = undefined;
-                next();
-              }
-              let {users} = usersData;
-        
-              let dbUser = users.find(item => item.id == decode.id);
-              if(dbUser){
-                req.user = dbUser;
-                next();
-              }else{
-                res.status(404).send({message:"Invalid User"});
-              }
-            });
+  try {
+    if (req?.headers?.authorization?.split(" ")[0] === "JWT") {
+      let userToken = req?.headers?.authorization?.split(" ")[1];
+      jwt.verify(userToken, process.env.AUTH_SECRET, function (err, decode) {
+        if (err) {
+          req.user = undefined;
+          return res.status(403).send({ message: "Invalid JWT token" });
+        } else {
+          let { users } = usersData;
+
+          let dbUser = users.find((item) => item.id == decode.id);
+          if (dbUser) {
+            req.user = dbUser;
+            next();
           } else {
-            res.status(400).send({message:"Authorization header not found"});
+            return res.status(404).send({ message: "Invalid User" });
           }
-    } catch (error) {
-        console.log("err",error);
-        res.status(500).send({message:"Something Went Wrong!"});
+        }
+      });
+    } else {
+      return res
+        .status(403)
+        .send({ message: "Authorization header not found" });
     }
-  
+  } catch (error) {
+    console.log("err", error);
+    res.status(500).send({ message: "Something Went Wrong!" });
+  }
 };
 module.exports = verifyToken;
